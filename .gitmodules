@@ -1,0 +1,3 @@
+[submodule "respiration_detect_time_domain_cpp"]
+	path = respiration_detect_time_domain_cpp
+	url = https://github.com/Algorigo/respiration_detect_time_domain_cpp.git
