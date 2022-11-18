@@ -3,6 +3,81 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def versionStr = '1.0.0'
+
+def getCurrentGitBranch() {
+    def gitBranch = "Unknown branch"
+    try {
+        def workingDir = new File("${project.projectDir}")
+        def result = 'git rev-parse --abbrev-ref HEAD'.execute(null, workingDir)
+        result.waitFor()
+        if (result.exitValue() == 0) {
+            gitBranch = result.text.trim()
+        }
+    } catch (e) {
+    }
+    return gitBranch
+}
+
+def getUserName() {
+    return System.properties['user.name']
+}
+
+if (getCurrentGitBranch().contains('master')) {
+    version = versionStr
+} else {
+    version = "${versionStr}-${getUserName()}-SNAPSHOT"
+}
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "com.algorigo.library"
+            artifactId = "peakcount"
+            version = "$version"
+
+            pom {
+                name = 'Peak Count Library'
+                description = 'Peak Count Library for Android using Native respiration_detect_time_domain_cpp[https://github.com/Algorigo/respiration_detect_time_domain_cpp]'
+                url = 'https://github.com/Algorigo/PeakCountLibrary_Android'
+                artifact("$buildDir/outputs/aar/peakcount-release.aar")
+
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'rouddy'
+                        name = 'Rouddy'
+                        email = 'rouddy@naver.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:https://github.com/Algorigo/PeakCountLibrary_Android.git'
+                    developerConnection = 'scm:git:https://github.com/Algorigo/PeakCountLibrary_Android.git'
+                    url = 'https://github.com/Algorigo/PeakCountLibrary_Android'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = version.endsWith('SNAPSHOT') ? NEXUS_SNAPSHOT_REPOSITORY_URL : NEXUS_REPOSITORY_URL
+            credentials {
+                username = findProperty('nexusUsername')
+                password = findProperty('nexusPassword')
+            }
+        }
+    }
+}
+
 android {
     compileSdk 32
 
