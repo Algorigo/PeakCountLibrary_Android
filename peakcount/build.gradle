@@ -27,7 +27,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 group = "com.algorigo.library"
-archivesBaseName = "nativefft"
+archivesBaseName = "peakcount"
 if (getCurrentGitBranch().contains('master')) {
     version = versionStr
 } else {
