@@ -7,6 +7,10 @@ jobs:
       - checkout
       - run:
           command: |
+            git submodule update --init
+          name: Git Submodule update
+      - run:
+          command: |
             sdkmanager "system-images;android-29;default;x86"
           name: Install system image "system-images;android-29;default;x86"
       - run:
