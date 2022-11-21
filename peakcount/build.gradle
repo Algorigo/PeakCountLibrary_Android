@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def versionStr = '1.0.1'
+def versionStr = '1.0.0'
 
 def getCurrentGitBranch() {
     def gitBranch = "Unknown branch"
