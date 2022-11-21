@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-def versionStr = '1.0.0'
+def versionStr = '1.0.1'
 
 def getCurrentGitBranch() {
     def gitBranch = "Unknown branch"
@@ -23,21 +23,21 @@ def getUserName() {
     return System.properties['user.name']
 }
 
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = "com.algorigo.library"
+archivesBaseName = "nativefft"
 if (getCurrentGitBranch().contains('master')) {
     version = versionStr
 } else {
     version = "${versionStr}-${getUserName()}-SNAPSHOT"
 }
 
-apply plugin: 'maven-publish'
-
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = "com.algorigo.library"
-            artifactId = "peakcount"
-            version = "$version"
-
+        mavenJava(MavenPublication) {
+            artifactId = archivesBaseName
             pom {
                 name = 'Peak Count Library'
                 description = 'Peak Count Library for Android using Native respiration_detect_time_domain_cpp[https://github.com/Algorigo/respiration_detect_time_domain_cpp]'
@@ -76,6 +76,10 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
 
 android {

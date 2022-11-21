@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <vector>
-#include "../../../../respiration_detect_time_domain_cpp/src/signalgo.h"
+#include "signalgo.h"
 
 extern "C" JNIEXPORT jint JNICALL
 Java_com_algorigo_peakcount_PeakCount_peakCount(
