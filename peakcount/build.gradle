@@ -83,11 +83,12 @@ signing {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
+    namespace = "com.algorigo.peakcount"
 
     defaultConfig {
         minSdk 22
-        targetSdk 32
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
